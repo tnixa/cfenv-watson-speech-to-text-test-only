@@ -3,11 +3,9 @@ package org.terrence.testapp.rest;
 import java.io.InputStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.util.Arrays;
-
-import com.ibm.watson.developer_cloud.speech_to_text.v1.SpeechToText;
-import com.ibm.watson.developer_cloud.speech_to_text.v1.model.RecognizeOptions;
-import com.ibm.watson.developer_cloud.speech_to_text.v1.model.SpeechRecognitionResults;
+import com.ibm.watson.speech_to_text.v1.SpeechToText;
+import com.ibm.watson.speech_to_text.v1.model.RecognizeOptions;
+import com.ibm.watson.speech_to_text.v1.model.SpeechRecognitionResults;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,7 +31,8 @@ public class TestRestController {
       RecognizeOptions recognizeOptions = new RecognizeOptions.Builder().audio(inputSteam).contentType("audio/flac")
           .model("en-US_BroadbandModel").maxAlternatives(3).build();
 
-      SpeechRecognitionResults speechRecognitionResults = speechToText.recognize(recognizeOptions).execute();
+      SpeechRecognitionResults speechRecognitionResults = speechToText.recognize(recognizeOptions).execute()
+          .getResult();
       String results = speechRecognitionResults.toString();
       pw.println("Recognition results: '" + results + "'");
 
